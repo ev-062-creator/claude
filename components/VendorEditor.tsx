@@ -263,6 +263,7 @@ function VendorCard({
   function handleSave(d: DraftState) {
     const patch: VendorOverride = {};
     if (d.name !== vendor.name) patch.name = d.name;
+    if (d.color !== vendor.color) patch.color = d.color;
     if (d.relationshipStatus !== vendor.relationshipStatus) patch.relationshipStatus = d.relationshipStatus;
     if (d.paymentType !== vendor.paymentType) patch.paymentType = d.paymentType;
     if (Number(d.totalOwed) !== vendor.totalOwed) patch.totalOwed = Number(d.totalOwed) || 0;

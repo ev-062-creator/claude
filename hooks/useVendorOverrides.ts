@@ -1,12 +1,12 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { VENDORS } from "@/lib/data";
 import type { Vendor } from "@/lib/types";
 
 const OVERRIDES_KEY = "nm_vendor_overrides_v1";
 const CUSTOM_KEY = "nm_custom_vendors_v1";
 
-export type VendorOverride = Partial<Pick<Vendor, "name" | "notes" | "relationshipStatus" | "totalOwed" | "entrada" | "totalInstallments" | "monthlyFee" | "paymentType">>;
+export type VendorOverride = Partial<Pick<Vendor, "name" | "color" | "notes" | "relationshipStatus" | "totalOwed" | "entrada" | "totalInstallments" | "monthlyFee" | "paymentType">>;
 export type Overrides = Record<string, VendorOverride>;
 
 function loadJSON<T>(key: string, fallback: T): T {
@@ -67,10 +67,10 @@ export function useVendorOverrides() {
     });
   }, []);
 
-  const mergedVendors: Vendor[] = [
+  const mergedVendors = useMemo<Vendor[]>(() => [
     ...VENDORS.map((v) => ({ ...v, ...(overrides[v.id] ?? {}) })),
     ...customVendors,
-  ];
+  ], [overrides, customVendors]);
 
   return {
     overrides,

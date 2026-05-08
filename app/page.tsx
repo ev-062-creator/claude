@@ -17,9 +17,9 @@ import { useCustomFees } from "@/hooks/useCustomFees";
 
 export default function Page() {
   const { isLoggedIn, checking, login, logout } = useAuth();
-  const { payments: basePayments, paidIds, togglePaid } = usePayments();
-  const { customFees, addFee, deleteFee } = useCustomFees();
   const { overrides, customVendors, mergedVendors, updateVendor, resetVendor, addCustomVendor, deleteCustomVendor, updateCustomVendor } = useVendorOverrides();
+  const { payments: basePayments, paidIds, togglePaid } = usePayments(mergedVendors);
+  const { customFees, addFee, deleteFee } = useCustomFees();
   const payments = useMemo(() => [...basePayments, ...customFees], [basePayments, customFees]);
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");

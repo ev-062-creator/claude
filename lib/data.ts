@@ -37,12 +37,12 @@ export const VENDORS: Vendor[] = [
     name: "Clear Sale",
     color: "#F97316",
     bg: "#FFF7ED",
-    totalOwed: 6 * 25000 + 11751.81, // 7 parcelas totais; 2 já pagas
+    totalOwed: 7 * 25000 + 11751.81, // 8 parcelas totais; 2 já pagas
     paymentType: "semanal",
     relationshipStatus: "ativo",
-    totalInstallments: 7,
+    totalInstallments: 8,
     monthlyFee: 10000,
-    notes: "7 parcelas semanais (2 primeiras já pagas). Mensalidade corrente ~R$ 10.000/mês",
+    notes: "8 parcelas semanais (2 primeiras já pagas). Mensalidade corrente ~R$ 10.000/mês",
   },
   {
     id: "pmweb",
@@ -162,18 +162,18 @@ export const VENDOR_MAP = Object.fromEntries(
 function buildPayments(): Payment[] {
   const list: Payment[] = [];
 
-  // Clear Sale — 7 segundas a partir de 11/05 (parcelas 1–7)
+  // Clear Sale — 8 segundas a partir de 11/05 (parcelas 1–8)
   // Parcelas 1 e 2 são pré-pagas (pre-seeded no localStorage)
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 8; i++) {
     const d = addDays(S, i * 7); // Monday
     list.push({
       id: `cs-${i + 1}`,
       vendorId: "clearsale",
       date: toISO(d),
-      amount: i < 6 ? 25000 : 11751.81,
+      amount: i < 7 ? 25000 : 11751.81,
       installmentNumber: i + 1,
-      totalInstallments: 7,
-      label: i < 6 ? `Parcela ${i + 1}/7` : `Residual 7/7`,
+      totalInstallments: 8,
+      label: i < 7 ? `Parcela ${i + 1}/8` : `Residual 8/8`,
       frequency: "semanal",
     });
   }
