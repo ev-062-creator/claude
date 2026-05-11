@@ -16,7 +16,7 @@ import { useVendorOverrides } from "@/hooks/useVendorOverrides";
 import { useCustomFees } from "@/hooks/useCustomFees";
 
 export default function Page() {
-  const { isLoggedIn, checking, login, logout } = useAuth();
+  const { isLoggedIn, checking, step, pendingEmail, login, verifyCode, cancelCodeStep, logout } = useAuth();
   const { overrides, customVendors, mergedVendors, updateVendor, resetVendor, addCustomVendor, deleteCustomVendor, updateCustomVendor } = useVendorOverrides();
   const { payments: basePayments, paidIds, togglePaid } = usePayments(mergedVendors);
   const { customFees, addFee, deleteFee } = useCustomFees();
@@ -38,7 +38,15 @@ export default function Page() {
   }
 
   if (!isLoggedIn) {
-    return <LoginScreen onLogin={login} />;
+    return (
+      <LoginScreen
+        step={step}
+        pendingEmail={pendingEmail}
+        onLogin={login}
+        onVerify={verifyCode}
+        onBack={cancelCodeStep}
+      />
+    );
   }
 
   return (
