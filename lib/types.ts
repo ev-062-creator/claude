@@ -16,6 +16,7 @@ export interface Vendor {
   entrada?: number;
   monthlyFee?: number;
   notes?: string;
+  acordoAtivo?: boolean;
 }
 
 export interface Payment {

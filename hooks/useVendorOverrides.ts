@@ -6,7 +6,7 @@ import type { Vendor } from "@/lib/types";
 const OVERRIDES_KEY = "nm_vendor_overrides_v1";
 const CUSTOM_KEY = "nm_custom_vendors_v1";
 
-export type VendorOverride = Partial<Pick<Vendor, "name" | "color" | "notes" | "relationshipStatus" | "totalOwed" | "entrada" | "totalInstallments" | "monthlyFee" | "paymentType">>;
+export type VendorOverride = Partial<Pick<Vendor, "name" | "color" | "notes" | "relationshipStatus" | "totalOwed" | "entrada" | "totalInstallments" | "monthlyFee" | "paymentType" | "acordoAtivo">>;
 export type Overrides = Record<string, VendorOverride>;
 
 function loadJSON<T>(key: string, fallback: T): T {

@@ -63,9 +63,16 @@ function VendorCard({ vendor, installments, paidIds, onToggle }: {
               <p className="text-xs text-muted-foreground">{TYPE_LABELS[vendor.paymentType]}</p>
             </div>
           </div>
-          <span className={`text-xs px-2 py-0.5 rounded-full font-medium flex-shrink-0 ${statusColor(vendor.relationshipStatus)}`}>
-            {statusIcon(vendor.relationshipStatus)} {statusLabel(vendor.relationshipStatus)}
-          </span>
+          <div className="flex flex-col items-end gap-1 flex-shrink-0">
+            <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusColor(vendor.relationshipStatus)}`}>
+              {statusIcon(vendor.relationshipStatus)} {statusLabel(vendor.relationshipStatus)}
+            </span>
+            {(vendor.acordoAtivo ?? true) === false && (
+              <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
+                Acordo inativo
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Total */}

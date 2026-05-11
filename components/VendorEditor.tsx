@@ -78,10 +78,11 @@ interface DraftState {
   totalInstallments: number | "";
   monthlyFee: number | "";
   notes: string;
+  acordoAtivo: boolean;
 }
 
 function emptyDraft(): DraftState {
-  return { name: "", color: PRESET_COLORS[0], relationshipStatus: "ativo", paymentType: "mensal", totalOwed: "", entrada: "", totalInstallments: "", monthlyFee: "", notes: "" };
+  return { name: "", color: PRESET_COLORS[0], relationshipStatus: "ativo", paymentType: "mensal", totalOwed: "", entrada: "", totalInstallments: "", monthlyFee: "", notes: "", acordoAtivo: true };
 }
 
 function calcInstallment(draft: DraftState): number | null {
@@ -218,6 +219,28 @@ function AgreementForm({
         </div>
       </div>
 
+      {/* Row 4: acordo ativo toggle */}
+      <div className="flex items-center justify-between rounded-lg border bg-muted/20 px-3 py-2.5">
+        <div className="flex items-center gap-2">
+          <span className={`inline-block w-2 h-2 rounded-full ${draft.acordoAtivo ? "bg-green-500" : "bg-red-500"}`} />
+          <div>
+            <p className="text-sm font-medium">Acordo {draft.acordoAtivo ? "ativo" : "inativo"}</p>
+            <p className="text-[11px] text-muted-foreground">
+              {draft.acordoAtivo ? "Parcelas e mensalidades em andamento" : "Acordo pausado ou encerrado"}
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={draft.acordoAtivo}
+          onClick={() => set("acordoAtivo", !draft.acordoAtivo)}
+          className={`relative inline-flex h-6 w-11 flex-shrink-0 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-ring ${draft.acordoAtivo ? "bg-green-500" : "bg-muted-foreground/30"}`}
+        >
+          <span className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform ${draft.acordoAtivo ? "translate-x-5" : "translate-x-0.5"} mt-0.5`} />
+        </button>
+      </div>
+
       {/* Actions */}
       <div className="flex gap-2 pt-1">
         <button type="submit" className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors">
@@ -258,6 +281,7 @@ function VendorCard({
     totalInstallments: effective.totalInstallments ?? "",
     monthlyFee: effective.monthlyFee ?? "",
     notes: effective.notes ?? "",
+    acordoAtivo: effective.acordoAtivo ?? true,
   });
 
   function handleSave(d: DraftState) {
@@ -271,6 +295,7 @@ function VendorCard({
     if (Number(d.totalInstallments || 0) !== (vendor.totalInstallments ?? 0)) patch.totalInstallments = Number(d.totalInstallments) || undefined;
     if (Number(d.monthlyFee || 0) !== (vendor.monthlyFee ?? 0)) patch.monthlyFee = Number(d.monthlyFee) || undefined;
     if ((d.notes ?? "") !== (vendor.notes ?? "")) patch.notes = d.notes;
+    if (d.acordoAtivo !== (vendor.acordoAtivo ?? true)) patch.acordoAtivo = d.acordoAtivo;
     onUpdate(patch);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
@@ -290,6 +315,7 @@ function VendorCard({
             <span className="font-semibold text-sm">{effective.name}</span>
             {isCustom && <span className="text-[10px] bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 px-1.5 py-0.5 rounded-full font-medium">novo</span>}
             {hasOverride && <span className="text-[10px] bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 px-1.5 py-0.5 rounded-full font-medium">editado</span>}
+            {(effective.acordoAtivo ?? true) === false && <span className="text-[10px] bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 px-1.5 py-0.5 rounded-full font-medium">acordo inativo</span>}
             {saved && <span className="text-[10px] bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-1.5 py-0.5 rounded-full font-medium">salvo ✓</span>}
           </div>
           <div className="flex items-center gap-3 mt-0.5 flex-wrap">
@@ -361,6 +387,7 @@ function NewAgreementPanel({ onAdd }: { onAdd: Props["onAdd"] }) {
       totalInstallments,
       monthlyFee,
       notes: d.notes.trim() || undefined,
+      acordoAtivo: d.acordoAtivo,
     });
     setOpen(false);
   }
