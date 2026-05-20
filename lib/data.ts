@@ -37,46 +37,48 @@ export const VENDORS: Vendor[] = [
     name: "Clear Sale",
     color: "#F97316",
     bg: "#FFF7ED",
-    totalOwed: 7 * 25000 + 11751.81, // 8 parcelas totais; 2 já pagas
+    totalOwed: 16751.81,
     paymentType: "semanal",
     relationshipStatus: "ativo",
-    totalInstallments: 8,
-    monthlyFee: 10000,
-    notes: "8 parcelas semanais (2 primeiras já pagas). Mensalidade corrente ~R$ 10.000/mês",
+    totalInstallments: 3,
+    acordoAtivo: true,
+    notes: "3 parcelas semanais (2 primeiras já pagas).",
   },
   {
     id: "pmweb",
     name: "PM Web",
     color: "#3B82F6",
     bg: "#EFF6FF",
-    totalOwed: 10 * 7040.25,
+    totalOwed: 702.50,
     paymentType: "semanal",
     relationshipStatus: "sem-servico",
-    totalInstallments: 10,
-    notes: "10 parcelas semanais de R$ 7.040,25 — toda terça",
+    totalInstallments: 12,
+    acordoAtivo: true,
+    notes: "12 parcelas semanais.",
   },
   {
     id: "jucemar",
-    name: "Jucemar / Numai",
+    name: "Robertin Numai",
     color: "#16A34A",
     bg: "#F0FDF4",
-    totalOwed: 12 * 17013,
+    totalOwed: 256,
     paymentType: "mensal",
     relationshipStatus: "ativo",
     totalInstallments: 12,
-    notes: "12 parcelas mensais de R$ 17.013,00 — vencimento dia 11 de cada mês",
+    acordoAtivo: false,
+    notes: "12 parcelas mensais — acordo inativo.",
   },
   {
     id: "oto",
     name: "OTO",
     color: "#CA8A04",
     bg: "#FEFCE8",
-    totalOwed: 11 * 13636.36,
+    totalOwed: 1996,
     paymentType: "mensal",
     relationshipStatus: "romper",
-    totalInstallments: 11,
-    monthlyFee: 19000,
-    notes: "Romper contrato — mensalidade atual R$ 19.000. 11 parcelas até encerrar.",
+    totalInstallments: 1,
+    acordoAtivo: true,
+    notes: "Romper contrato — 1 parcela única.",
   },
   {
     id: "wake",
@@ -87,6 +89,7 @@ export const VENDORS: Vendor[] = [
     paymentType: "mensal",
     relationshipStatus: "ativo",
     totalInstallments: 11,
+    acordoAtivo: true,
     notes: "Stand by. Entrada R$ 34.000 em 15/05 + 10 × R$ 7.171,67 (jun/26–mar/27)",
   },
   {
@@ -98,6 +101,7 @@ export const VENDORS: Vendor[] = [
     paymentType: "sem-previsao",
     relationshipStatus: "romper",
     monthlyFee: 1100,
+    acordoAtivo: true,
     notes: "Romper contrato. Mensalidade R$ 1.100. Saldo: R$ 7.000",
   },
   {
@@ -105,41 +109,44 @@ export const VENDORS: Vendor[] = [
     name: "VTEX",
     color: "#DC2626",
     bg: "#FEF2F2",
-    totalOwed: 230723.59,
+    totalOwed: 2723.59,
     paymentType: "sem-previsao",
     relationshipStatus: "a-negociar",
-    monthlyFee: 40000,
-    notes: "R$ 161.617,20 em atraso de R$ 230.723,59 total. Custo médio R$ 40.000/mês",
+    acordoAtivo: true,
+    notes: "Saldo devedor: R$ 2.723,59",
   },
   {
     id: "googleads",
     name: "Google Ads",
     color: "#4F46E5",
     bg: "#EEF2FF",
-    totalOwed: 917023.28,
+    totalOwed: 7023.28,
     paymentType: "sem-previsao",
     relationshipStatus: "a-negociar",
-    notes: "Saldo devedor: R$ 917.023,28",
+    acordoAtivo: true,
+    notes: "Saldo devedor: R$ 7.023,28",
   },
   {
     id: "blue",
     name: "Blue",
     color: "#0891B2",
     bg: "#ECFEFF",
-    totalOwed: 28316.46,
+    totalOwed: 286,
     paymentType: "sem-previsao",
     relationshipStatus: "a-negociar",
-    notes: "Saldo devedor: R$ 28.316,46",
+    acordoAtivo: true,
+    notes: "Saldo devedor: R$ 286,00",
   },
   {
     id: "bing",
     name: "Bing",
     color: "#DB2777",
     bg: "#FDF2F8",
-    totalOwed: 17000,
+    totalOwed: 1000,
     paymentType: "sem-previsao",
     relationshipStatus: "a-negociar",
-    notes: "Saldo devedor: R$ 17.000",
+    acordoAtivo: true,
+    notes: "Saldo devedor: R$ 1.000,00",
   },
   {
     id: "felipedesign",
@@ -149,6 +156,7 @@ export const VENDORS: Vendor[] = [
     totalOwed: 5000,
     paymentType: "sem-previsao",
     relationshipStatus: "a-negociar",
+    acordoAtivo: true,
     notes: "Saldo devedor: R$ 5.000",
   },
 ];
@@ -162,55 +170,41 @@ export const VENDOR_MAP = Object.fromEntries(
 function buildPayments(): Payment[] {
   const list: Payment[] = [];
 
-  // Clear Sale — 8 segundas a partir de 11/05 (parcelas 1–8)
+  // Clear Sale — 3 segundas a partir de 11/05 (parcelas 1–3)
   // Parcelas 1 e 2 são pré-pagas (pre-seeded no localStorage)
-  for (let i = 0; i < 8; i++) {
-    const d = addDays(S, i * 7); // Monday
+  const csAmount = 16751.81 / 3;
+  for (let i = 0; i < 3; i++) {
+    const d = addDays(S, i * 7);
     list.push({
       id: `cs-${i + 1}`,
       vendorId: "clearsale",
       date: toISO(d),
-      amount: i < 7 ? 25000 : 11751.81,
+      amount: csAmount,
       installmentNumber: i + 1,
-      totalInstallments: 8,
-      label: i < 7 ? `Parcela ${i + 1}/8` : `Residual 8/8`,
+      totalInstallments: 3,
+      label: `Parcela ${i + 1}/3`,
       frequency: "semanal",
     });
   }
 
-  // Clear Sale — mensalidade de serviço ~R$10k (mai, jun, jul 2026)
-  [
-    { date: "2026-05-15", label: "Mensalidade Mai/26" },
-    { date: "2026-06-15", label: "Mensalidade Jun/26" },
-    { date: "2026-07-03", label: "Mensalidade Jul/26" },
-  ].forEach(({ date, label }, i) => {
-    list.push({
-      id: `cs-fee-${i + 1}`,
-      vendorId: "clearsale",
-      date,
-      amount: 10000,
-      label,
-      frequency: "mensalidade",
-      isMonthlyFee: true,
-    });
-  });
-
-  // PM Web — 10 terças a partir de 12/05
-  for (let i = 0; i < 10; i++) {
-    const d = addDays(S, 1 + i * 7); // Tuesday
+  // PM Web — 12 terças a partir de 12/05
+  const pmAmount = 702.50 / 12;
+  for (let i = 0; i < 12; i++) {
+    const d = addDays(S, 1 + i * 7);
     list.push({
       id: `pm-${i + 1}`,
       vendorId: "pmweb",
       date: toISO(d),
-      amount: 7040.25,
+      amount: pmAmount,
       installmentNumber: i + 1,
-      totalInstallments: 10,
-      label: `Parcela ${i + 1}/10`,
+      totalInstallments: 12,
+      label: `Parcela ${i + 1}/12`,
       frequency: "semanal",
     });
   }
 
-  // Jucemar — 12 mensais dia 11 (mai/26 a abr/27), ajustado para dia útil
+  // Robertin Numai — 12 mensais dia 11 (mai/26 a abr/27)
+  const jcAmount = 256 / 12;
   for (let i = 0; i < 12; i++) {
     const raw = new Date(2026, 4 + i, 11);
     const d = toBizDay(raw);
@@ -218,7 +212,7 @@ function buildPayments(): Payment[] {
       id: `jc-${i + 1}`,
       vendorId: "jucemar",
       date: toISO(d),
-      amount: 17013,
+      amount: jcAmount,
       installmentNumber: i + 1,
       totalInstallments: 12,
       label: `Parcela ${i + 1}/12`,
@@ -226,20 +220,17 @@ function buildPayments(): Payment[] {
     });
   }
 
-  // OTO — 11 mensais dia 15 a partir de 15/05/2026
-  for (let i = 0; i < 11; i++) {
-    const d = new Date(2026, 4 + i, 15);
-    list.push({
-      id: `oto-${i + 1}`,
-      vendorId: "oto",
-      date: toISO(d),
-      amount: 13636.36,
-      installmentNumber: i + 1,
-      totalInstallments: 11,
-      label: `Parcela ${i + 1}/11`,
-      frequency: "mensal",
-    });
-  }
+  // OTO — 1 parcela única em 15/05/2026
+  list.push({
+    id: "oto-1",
+    vendorId: "oto",
+    date: toISO(new Date(2026, 4, 15)),
+    amount: 1996,
+    installmentNumber: 1,
+    totalInstallments: 1,
+    label: "Parcela 1/1",
+    frequency: "mensal",
+  });
 
   // Wake — entrada 15/05/2026
   list.push({
