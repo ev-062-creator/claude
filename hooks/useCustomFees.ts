@@ -2,7 +2,8 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Payment } from "@/lib/types";
 
-const KEY = "nm_custom_fees_v1";
+const KEY = "nm_custom_fees_v2";
+const LEGACY_KEYS = ["nm_custom_fees_v1"];
 
 function load(): Payment[] {
   try { const r = localStorage.getItem(KEY); return r ? JSON.parse(r) : []; } catch { return []; }
@@ -14,7 +15,10 @@ function persist(fees: Payment[]) {
 export function useCustomFees() {
   const [customFees, setCustomFees] = useState<Payment[]>([]);
 
-  useEffect(() => { setCustomFees(load()); }, []);
+  useEffect(() => {
+    try { for (const k of LEGACY_KEYS) localStorage.removeItem(k); } catch {}
+    setCustomFees(load());
+  }, []);
 
   const addFee = useCallback((fee: Omit<Payment, "id">) => {
     const newFee: Payment = { ...fee, id: `fee-custom-${Date.now()}` };

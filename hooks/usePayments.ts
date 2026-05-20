@@ -3,8 +3,10 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { ALL_PAYMENTS, PRE_PAID_IDS, VENDORS as BASE_VENDORS } from "@/lib/data";
 import type { Payment, Vendor } from "@/lib/types";
 
-const KEY = "nm_paid_v3";
-const SEED_KEY = "nm_seeded_v3";
+const KEY = "nm_paid_v4";
+const SEED_KEY = "nm_seeded_v4";
+// Chaves antigas a serem removidas (reset 2026-05)
+const LEGACY_KEYS = ["nm_paid_v1", "nm_paid_v2", "nm_paid_v3", "nm_seeded_v3"];
 
 // IDs dos fornecedores base (não customizados)
 const BASE_IDS = new Set(BASE_VENDORS.map((v) => v.id));
@@ -50,6 +52,8 @@ export function usePayments(mergedVendors: Vendor[]) {
 
   useEffect(() => {
     try {
+      // Limpa chaves legadas para garantir reset completo
+      for (const k of LEGACY_KEYS) localStorage.removeItem(k);
       const raw = localStorage.getItem(KEY);
       const seeded = localStorage.getItem(SEED_KEY);
       if (raw) {

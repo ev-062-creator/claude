@@ -3,8 +3,10 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { VENDORS } from "@/lib/data";
 import type { Vendor } from "@/lib/types";
 
-const OVERRIDES_KEY = "nm_vendor_overrides_v1";
-const CUSTOM_KEY = "nm_custom_vendors_v1";
+const OVERRIDES_KEY = "nm_vendor_overrides_v2";
+const CUSTOM_KEY = "nm_custom_vendors_v2";
+// Chaves antigas a serem removidas (reset 2026-05)
+const LEGACY_KEYS = ["nm_vendor_overrides_v1", "nm_custom_vendors_v1"];
 
 export type VendorOverride = Partial<Pick<Vendor, "name" | "color" | "notes" | "relationshipStatus" | "totalOwed" | "entrada" | "totalInstallments" | "monthlyFee" | "paymentType" | "acordoAtivo">>;
 export type Overrides = Record<string, VendorOverride>;
@@ -21,6 +23,10 @@ export function useVendorOverrides() {
   const [customVendors, setCustomVendors] = useState<Vendor[]>([]);
 
   useEffect(() => {
+    // Limpa chaves legadas para garantir reset completo
+    try {
+      for (const k of LEGACY_KEYS) localStorage.removeItem(k);
+    } catch {}
     setOverrides(loadJSON(OVERRIDES_KEY, {}));
     setCustomVendors(loadJSON(CUSTOM_KEY, []));
   }, []);
