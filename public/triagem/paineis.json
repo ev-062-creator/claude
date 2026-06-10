@@ -1,0 +1,74 @@
+[
+  {
+    "id": "arvore_metas",
+    "nome": "Árvore de Metas",
+    "link": "https://arvore-de-metas-login-novo-ehbye3pa9.vercel.app/dashboard",
+    "descricao": "Granulariza a meta da empresa em cascata: Meta geral → Regional → Cluster → Lojas → Categorias → Espécies. 4 abas: organograma interativo em árvore, tabela de atingimento por filial com filtros, comparador de filiais/regionais lado a lado, e venda por vendedor de cada loja.",
+    "perguntas_responde": "atingimento de meta, metas por regional, lojas abaixo da meta, cluster de lojas, participação por categoria, comparar filiais, vendedor por loja, granularizar meta",
+    "publico_alvo": ["Regional", "Comercial", "Diretoria"],
+    "temas": ["Vendas", "Metas", "Performance de loja"],
+    "frequencia": "diario",
+    "responsavel": "Inácio",
+    "observacoes": "Hospedado no Vercel, fora do servidor Tableau."
+  },
+  {
+    "id": "painel_venda_diaria",
+    "nome": "Painel Venda Diária",
+    "link": "https://tableau-server.novomundo.com.br/#/site/Compras/workbooks/3272/views",
+    "descricao": "Pasta com múltiplos dashboards. Abas: (1) Visão Geral NM dia: meta, venda Vtrine, % atingido, ticket médio, VF, projeção, forma de pagamento, top filiais, filiais sem venda, cancelamentos; (2) Venda Cybelar + NM Mês comparativo dia a dia; (3) Painel Venda Dia Cybelar exclusivo; (4) Participação cancelamentos por filial mês e dia; (5) Painel Venda Mês NM acumulado com top cancelamentos VF.",
+    "perguntas_responde": "quanto vendemos hoje, atingimento do dia, projeção de fechamento do mês, filial sem venda, loja abaixo da meta, taxa de cancelamento venda futura, produtos cancelados, forma de pagamento, cybelar batendo previsão, venda consolidada NM e Cybelar, loja com maior cancelamento, acumulado do mês",
+    "publico_alvo": ["Regional", "Comercial", "Diretoria", "Todas as áreas"],
+    "temas": ["Vendas", "Metas", "Performance de loja", "Cancelamentos"],
+    "frequencia": "diario",
+    "responsavel": "Inácio",
+    "observacoes": "Painel mais acessado. Inclui Cybelar e Novo Mundo. Cancelamentos de VF críticos para operação."
+  },
+  {
+    "id": "distribuicao_venda_periodo",
+    "nome": "Distribuição da Venda por Período",
+    "link": "https://tableau-server.novomundo.com.br/#/site/Compras/workbooks/3282/views",
+    "descricao": "Pasta analítica com 13 abas. Cobre: atingimento por regional e departamento com drill-down por loja, distribuição semanal e diária da venda, comparativo espécies e produtos por semana com heatmap, venda futura por departamento entre meses, % dependência de combate por departamento, giro diário de Lavadoras/Refrigeradores/Ar Condicionado com comparativo de modelos e estoque, e venda por espécie (Branca/Móveis/Portáteis) com meta diária.",
+    "perguntas_responde": "distribuição da venda por dia da semana, quais dias vendem mais, semana que concentra mais venda, produtos mais vendidos por semana, dependência de combate, giro de lavadoras refrigeradores ar condicionado, modelos específicos mais vendidos, venda por espécie vs meta diária, estoque disponível, atingimento por regional e departamento, comparativo de venda futura entre meses",
+    "publico_alvo": ["Regional", "Comercial", "Supply"],
+    "temas": ["Vendas", "Metas", "Estoque", "Performance de loja", "Campanhas"],
+    "frequencia": "semanal",
+    "responsavel": "Inácio",
+    "observacoes": "Painel mais analítico. Ideal para reuniões de performance e planejamento comercial. Contém estoque por espécie."
+  },
+  {
+    "id": "gfk_estudo",
+    "nome": "GFK — Estudo de Mercado",
+    "link": "https://tableau-server.novomundo.com.br/#/site/Compras/workbooks/3378/views",
+    "descricao": "Painel com dados externos do instituto GFK. Informações de mercado e sell-out do setor de eletrodomésticos e eletrônicos. Permite comparar a performance do Novo Mundo com o mercado total da região.",
+    "perguntas_responde": "market share, participação de mercado, sell-out, como NM se compara ao mercado, categoria crescendo ou perdendo no mercado, potencial de mercado por região, concorrência, benchmarking",
+    "publico_alvo": ["Comercial", "Diretoria"],
+    "temas": ["Mercado", "Vendas"],
+    "frequencia": "mensal",
+    "responsavel": "Inácio",
+    "observacoes": "Dados externos GFK. Atualização mensal."
+  },
+  {
+    "id": "atingimento_meta_venda",
+    "nome": "Atingimento de Meta Venda",
+    "link": "https://tableau-server.novomundo.com.br/#/site/Compras/workbooks/3345/views",
+    "descricao": "Painel de consulta rápida de atingimento de meta por filial, regional e empresa. Visão consolidada com ranking, filtros por cluster, regional e faixa de atingimento. Complementar à Árvore de Metas — mais direto para consulta rápida.",
+    "perguntas_responde": "percentual de atingimento de meta por loja, quais lojas estão abaixo da meta, ranking de atingimento entre filiais, atingimento por regional, lojas acima da média da empresa",
+    "publico_alvo": ["Regional", "Comercial", "Diretoria"],
+    "temas": ["Vendas", "Metas", "Performance de loja"],
+    "frequencia": "diario",
+    "responsavel": "Inácio",
+    "observacoes": "Complementar à Árvore de Metas. Consulta rápida sem navegar na hierarquia."
+  },
+  {
+    "id": "predicao_meta_diaria",
+    "nome": "Predição Meta Diária",
+    "link": "https://tableau-server.novomundo.com.br/#/site/Compras/workbooks/3366/views",
+    "descricao": "Painel preditivo. Projeta o atingimento de meta com base no ritmo atual de vendas. Estima se a empresa ou loja vai bater a meta ao final do mês e qual ritmo diário é necessário para recuperar o gap. Diferente dos outros painéis que olham para trás — este olha para frente.",
+    "perguntas_responde": "empresa vai bater a meta no ritmo atual, projeção de fechamento por loja, ritmo diário necessário para bater a meta, lojas com risco de não bater, meta diária necessária para recuperar gap, previsão de resultado do mês",
+    "publico_alvo": ["Regional", "Comercial", "Diretoria"],
+    "temas": ["Vendas", "Metas", "Previsão"],
+    "frequencia": "diario",
+    "responsavel": "Inácio",
+    "observacoes": "Único painel preditivo do conjunto. Olha para o futuro, não para o passado."
+  }
+]
