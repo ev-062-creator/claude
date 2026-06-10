@@ -284,10 +284,10 @@ const CONFIG = {
   CLAUDE_PROXY: '/api/claude',
   CLAUDE_MODEL: 'claude-sonnet-4-20250514',
   TRELLO_LISTS: {
-    'entrada': null,
-    'inacio': null,
-    'sidnei': null,
-    'joao': null,
+    'entrada': '5f61ff687d98f71f40606265', // Demandas não atribuídas
+    'inacio':  '5f612b2092f3b412bc8b45d0', // Inacio
+    'sidnei':  '5f61ff687d98f71f40606265', // fallback → Demandas não atribuídas
+    'joao':    '5f612b2092f3b412bc8b45d1', // João Carlos
   }
 };
 
@@ -777,9 +777,10 @@ ${respostas.objetivo}
     );
     const lists = await listsResp.json();
 
-    let listId = CONFIG.TRELLO_LISTS.entrada;
+    // Usar lista específica do responsável, senão "entrada"
+    let listId = CONFIG.TRELLO_LISTS[state.responsavel] || CONFIG.TRELLO_LISTS.entrada;
     if (!listId) {
-      const found = lists.find(l => l.name.toLowerCase().includes('entrada'));
+      const found = lists.find(l => l.name.toLowerCase().includes('entrada') || l.name.toLowerCase().includes('não atribu'));
       listId = found?.id || lists[0]?.id;
     }
 
